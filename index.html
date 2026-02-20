@@ -1,1 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSuite - The Sheet Music App</title>
+    <link rel="icon" type="image/png" href="images/image-01.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #1C1C1E;
+            --color-primary: #FAFAFA;
+            --color-accent: #0A84FF;
+            --color-muted: #98989d;
+            --color-border: #38383a;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'EB Garamond', serif;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0 4rem;
+            position: relative;
+            animation: fadeUp 1s ease-out 0.2s both;
+        }
+
+        .hero-carousel {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            flex: 0 0 calc(50% - 12px);
+            width: calc(50% - 12px);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000000;
+            aspect-ratio: 3 / 4;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .iphone-carousel-slide {
+            flex: 0 0 calc(33.333% - 11px);
+            width: calc(33.333% - 11px);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000000;
+            aspect-ratio: 9 / 19;
+        }
+
+        .iphone-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(250, 250, 250, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--color-primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 1rem;
+        }
+
+        .carousel-btn.next {
+            right: 1rem;
+        }
+
+        .carousel-btn svg {
+            color: var(--color-bg);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .dot.active {
+            background: var(--color-accent);
+            transform: scale(1.2);
+        }
+
+        .dot:hover {
+            background: var(--color-muted);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+            color: var(--color-primary);
+        }
+
+        .hero-title strong {
+            font-weight: 700;
+        }
+
+        .hero-cta {
+            margin-top: 2rem;
+        }
+
+        /* iPhone Carousel Section */
+        .iphone-carousel-section {
+            padding: 4.5rem 0;
+            background: var(--color-bg);
+        }
+
+        .iphone-carousel {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .iphone-carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .iphone-carousel-track {
+            display: flex;
+            gap: 16px;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+        }
+
+        .iphone-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(250, 250, 250, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .iphone-carousel-btn:hover {
+            background: var(--color-primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .iphone-carousel-btn.prev {
+            left: 0.5rem;
+        }
+
+        .iphone-carousel-btn.next {
+            right: 0.5rem;
+        }
+
+        .iphone-carousel-btn svg {
+            color: var(--color-bg);
+        }
+
+        .iphone-carousel-dots {
+            display: flex;
+            gap: 0.4rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .iphone-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .iphone-dot.active {
+            background: var(--color-accent);
+            transform: scale(1.2);
+        }
+
+        .iphone-dot:hover {
+            background: var(--color-muted);
+        }
+
+        /* CTA Buttons */
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1.1rem 3rem;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.03em;
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(10,132,255,0.3);
+        }
+
+        .btn-primary:hover {
+            background: #0070e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(10,132,255,0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* Stakes Section */
+        .stakes {
+            padding: 4.5rem 0;
+            background: #000000;
+        }
+
+        .stakes-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stakes h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .stakes-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 2.75rem;
+            font-style: italic;
+        }
+
+        .stakes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.75rem;
+        }
+
+        .stake-item {
+            padding: 1.25rem;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stake-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        /* Value Section */
+        .value {
+            padding: 4.5rem 0;
+            background: var(--color-bg);
+        }
+
+        .value-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .value h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .value-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 2.75rem;
+            font-style: italic;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.75rem;
+        }
+
+        .value-item {
+            padding: 1.25rem;
+            background: #000000;
+            border: 1px solid var(--color-border);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(10,132,255,0.1);
+        }
+
+        /* Testimonial Section */
+        .testimonial {
+            padding: 4.5rem 0;
+            background: #000000;
+        }
+
+        .testimonial-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .testimonial-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 2.75rem;
+            font-style: italic;
+        }
+
+        .testimonial-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2.75rem;
+        }
+
+        .feature h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--color-accent);
+        }
+
+        .feature p {
+            color: var(--color-muted);
+            line-height: 1.7;
+        }
+
+        .testimonial-quote {
+            max-width: 700px;
+            margin: 0 auto 2.75rem;
+            padding: 2.25rem;
+            background: var(--color-bg);
+            border-left: 4px solid var(--color-accent);
+            border-radius: 8px;
+        }
+
+        .quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .attribution {
+            color: var(--color-muted);
+            font-size: 1rem;
+        }
+
+        /* Plan Section */
+        .plan {
+            padding: 4.5rem 0;
+            background: var(--color-bg);
+        }
+
+        .plan-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .plan h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .plan-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 2.75rem;
+            font-style: italic;
+        }
+
+        .plan-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2.75rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1.25rem;
+            background: var(--color-accent);
+            color: #ffffff;
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--color-muted);
+            line-height: 1.7;
+        }
+
+        /* Explanation Section */
+        .explanation {
+            padding: 4.5rem 0;
+            background: #000000;
+        }
+
+        .explanation-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .explanation h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .explanation-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .explanation-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-muted);
+            margin-bottom: 2.75rem;
+            text-align: left;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4.5rem 0;
+            background: #000000;
+            animation: fadeUp 1s ease-out 0.4s both;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .contact h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 2.75rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .contact-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            margin-bottom: 3.5rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-question {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+            line-height: 1.5;
+        }
+
+        .form-question .required {
+            color: #ff3b30;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            border: 1px solid var(--color-border);
+            background: #2c2c2e;
+            color: var(--color-primary);
+            transition: all 0.3s ease;
+            outline: none;
+            border-radius: 8px;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--color-accent);
+            background: #3a3a3c;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        button[type="submit"] {
+            width: auto;
+            margin-top: 1rem;
+            padding: 1.1rem 3rem;
+        }
+
+        /* Privacy Policy Section */
+        .privacy {
+            padding: 4.5rem 0;
+            background: var(--color-bg);
+        }
+
+        .privacy-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .privacy h2 {
+            font-family: var(--font-display);
+            font-size: 3.25rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+        }
+
+        .privacy-content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-muted);
+        }
+
+        .privacy-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem;
+            color: var(--color-primary);
+        }
+
+        .privacy-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            font-size: 1rem;
+            color: var(--color-muted);
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--color-muted);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Animations */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(20px, -30px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .iphone-carousel-slide {
+                flex: 0 0 calc(50% - 8px);
+                width: calc(50% - 8px);
+            }
+
+            .carousel-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .carousel-btn.prev {
+                left: 0.5rem;
+            }
+
+            .carousel-btn.next {
+                right: 0.5rem;
+            }
+
+            .stakes-grid,
+            .value-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonial-features,
+            .plan-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 3rem 0 2.5rem;
+            }
+
+            .carousel-container {
+                border-radius: 6px;
+            }
+
+            .carousel-slide {
+                border-radius: 6px;
+            }
+
+            .carousel-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .carousel-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .stakes-grid,
+            .value-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stakes h2,
+            .value h2,
+            .testimonial h2,
+            .plan h2,
+            .explanation h2,
+            .contact h2 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .privacy h2 {
+                font-size: 2.5rem;
+            }
+
+            .testimonial-quote {
+                padding: 1.5rem;
+            }
+
+            .quote {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title"><strong>eSuite</strong>: The Sheet Music App</h1>
+                <div class="hero-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">
+                                <img src="images/image-02.jpg" alt="All-in-one music management">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/image-03.jpg" alt="Smart suggestions and score renaming">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/image-04.jpg" alt="Simplify your sheet music experience">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/image-05.jpg" alt="Effortlessly digitize your music">
+                            </div>
+                        </div>
+                        <button class="carousel-btn prev" aria-label="Previous slide">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-btn next" aria-label="Next slide">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="carousel-dots">
+                        <button class="dot active" aria-label="Position 1"></button>
+                        <button class="dot" aria-label="Position 2"></button>
+                        <button class="dot" aria-label="Position 3"></button>
+                    </div>
+                    <div class="hero-cta">
+                        <a href="https://apps.apple.com/us/app/esuite-the-sheet-music-app/id6758392228" class="btn btn-primary">Download the App</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stakes">
+            <div class="container">
+                <div class="stakes-content">
+                    <h2>Don't Let Disorganization Ruin Your Music</h2>
+                    <p class="stakes-subtitle">Keep your focus on playing and performing, not searching for misplaced sheet music.</p>
+                    
+                    <div class="stakes-grid">
+                        <div class="stake-item">Physical sheet music is hard to manage.</div>
+                        <div class="stake-item">Constantly losing your sheet music is frustrating.</div>
+                        <div class="stake-item">Carrying heavy folders is exhausting during gigs.</div>
+                        <div class="stake-item">Finding the right piece takes too much time.</div>
+                        <div class="stake-item">Uncertainty about where music is adds to stress.</div>
+                        <div class="stake-item">Missing out on opportunities due to clutter.</div>
+                        <div class="stake-item">Your creativity is stifled by chaos.</div>
+                        <div class="stake-item">Feeling overwhelmed affects your performance.</div>
+                    </div>
+
+                    <div class="iphone-carousel" style="margin: 2.5rem 0;">
+                        <div class="iphone-carousel-container">
+                            <div class="iphone-carousel-track">
+                                <div class="iphone-carousel-slide"><img src="images/image-06.png" alt="Curate Your Library"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-07.png" alt="Effortlessly Digitize Your Music"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-08.png" alt="Smart Suggestions"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-09.png" alt="Custom Tags"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-10.png" alt="Create and Manage Setlists"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-11.png" alt="iCloud Sync"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-12.png" alt="Annotate Your Scores"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-13.png" alt="Performance Mode"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-14.png" alt="Simplify Your Experience"></div>
+                                <div class="iphone-carousel-slide"><img src="images/image-15.png" alt="Beautifully Crafted"></div>
+                            </div>
+                            <button class="iphone-carousel-btn prev" aria-label="Previous">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <button class="iphone-carousel-btn next" aria-label="Next">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                        <div class="iphone-carousel-dots">
+                            <button class="iphone-dot active"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                            <button class="iphone-dot"></button>
+                        </div>
+                    </div>
+
+                    <div class="cta-group">
+                        <a href="https://apps.apple.com/us/app/esuite-the-sheet-music-app/id6758392228" class="btn btn-primary">Download the App</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="value">
+            <div class="container">
+                <div class="value-content">
+                    <h2>Enjoy Seamless Access to Your Music</h2>
+                    <p class="value-subtitle">Experience the freedom of an organized musical life.</p>
+                    
+                    <div class="value-grid">
+                        <div class="value-item">Access your music anytime, anywhere.</div>
+                        <div class="value-item">Organize your sheet music effortlessly.</div>
+                        <div class="value-item">Focus more on playing, less on finding.</div>
+                        <div class="value-item">Enjoy a beautifully designed music experience.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial">
+            <div class="container">
+                <div class="testimonial-content">
+                    <h2>We Understand Your Struggle</h2>
+                    <p class="testimonial-subtitle">eSuite simplifies managing your sheet music so you can create music effortlessly.</p>
+                    
+                    <div class="testimonial-features">
+                        <div class="feature">
+                            <h3>A Beautiful Solution for Musicians</h3>
+                            <p>eSuite was designed with musicians to ensure a flawless experience.</p>
+                        </div>
+                        <div class="feature">
+                            <h3>Easy to Use, Seamless Experience</h3>
+                            <p>Join thousands of happy musicians enjoying organized music.</p>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-quote">
+                        <p class="quote">"eSuite has revolutionized the way I manage my music. I can finally focus on playing without the chaos of paper scores."</p>
+                        <p class="attribution">— Annie, Tabernacle Choir at Temple Square Member</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="plan">
+            <div class="container">
+                <div class="plan-content">
+                    <h2>Three Simple Steps to Organize Your Music</h2>
+                    <p class="plan-subtitle">Transform your music experience in moments.</p>
+                    
+                    <div class="plan-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Download the App</h3>
+                            <p>Get the app from the Apple App Store.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Upload Your Music</h3>
+                            <p>Simply upload your existing sheet music.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Enjoy Hassle-Free Access</h3>
+                            <p>Access your organized library anytime, anywhere.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="explanation">
+            <div class="container">
+                <div class="explanation-content">
+                    <h2>Your Music Deserves Better Organization</h2>
+                    <p class="explanation-subtitle">Let us help you find peace of mind.</p>
+                    
+                    <p class="explanation-text">Dealing with disorganized physical sheet music can be frustrating for any musician. You deserve a seamless experience that allows you to focus on your passion for music. With eSuite, simply convert your physical library into a beautifully organized digital space. Imagine the ease of accessing your music on-the-go, eliminating clutter and stress, leaving you to enjoy the beauty of your craft without distraction.</p>
+
+                    <div class="cta-group">
+                        <a href="https://apps.apple.com/us/app/esuite-the-sheet-music-app/id6758392228" class="btn btn-primary">Download the App</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="support" class="contact">
+            <div class="contact-container">
+                <h2>Support</h2>
+                
+                <form id="contactForm" action="https://formspree.io/f/xaqdoozo" method="POST">
+                    <div class="form-group">
+                        <label class="form-question">Describe your issue or feedback and we'll do our best to respond and/or fix it <span class="required">*</span></label>
+                        <textarea id="issue" name="issue" placeholder="Your answer" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-question">[Optional] Enter your email address if you'd like a response</label>
+                        <input type="email" id="email" name="_replyto" placeholder="Your answer">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="privacy" class="privacy">
+            <div class="privacy-container">
+                <h2>Privacy Policy</h2>
+                <div class="privacy-content">
+                    <p><em>Last Updated: February 17, 2026</em></p>
+                    
+                    <h3>1. Introduction</h3>
+                    <p>Welcome to eSuite Music ("we," "our," or "us"). We respect your privacy and are committed to protecting it. This Privacy Policy explains that our application does not collect, store, or share any of your personal information.</p>
+                    
+                    <h3>2. Information Collection and Use</h3>
+                    <p>We do not collect any personal data or usage statistics.</p>
+                    <p><strong>No Account Required:</strong> You can use the app without creating an account or providing personal details.</p>
+                    <p><strong>No Tracking:</strong> We do not track your location, device ID, or usage history.</p>
+                    <p><strong>No Advertising:</strong> This app does not serve ads or use advertising identifiers.</p>
+                    
+                    <h3>3. Data Storage</h3>
+                    <p>Any preferences or content you create within the app are stored strictly locally on your device. We do not have access to your data, and it is never transmitted to external servers.</p>
+                    
+                    <h3>4. Third-Party Links and Services</h3>
+                    <p>As this app is distributed via the Apple App Store, Apple may collect technical data (like crash logs) subject to their own privacy policy.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2026 eSuite by Mitchell Taylor. All rights reserved. | <a href="blog/index.html" style="color: #0A84FF; text-decoration: none;">Blog</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality - shows 2 images, scrolls 1 at a time
+        const track = document.querySelector('.carousel-track');
+        const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        const carouselContainer = document.querySelector('.carousel-container');
+        
+        let currentPosition = 0; // 0, 1, or 2 (showing images 1-2, 2-3, or 3-4)
+        const totalPositions = 3;
+
+        function updateCarousel() {
+            // Always show 2 images - calculate exact offset
+            // Get first slide's actual computed width
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            const gap = 24; // pixels
+            
+            // Move by slideWidth + gap for each position
+            const offset = currentPosition * (slideWidth + gap);
+            track.style.transform = `translateX(-${offset}px)`;
+            
+            console.log('Carousel update:', {
+                position: currentPosition,
+                slideWidth,
+                gap,
+                offset,
+                containerWidth: carouselContainer.offsetWidth
+            });
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPosition);
+            });
+
+            // Update button states
+            prevBtn.disabled = currentPosition === 0;
+            nextBtn.disabled = currentPosition === totalPositions - 1;
+            
+            prevBtn.style.opacity = currentPosition === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentPosition === totalPositions - 1 ? '0.5' : '1';
+            prevBtn.style.cursor = currentPosition === 0 ? 'default' : 'pointer';
+            nextBtn.style.cursor = currentPosition === totalPositions - 1 ? 'default' : 'pointer';
+        }
+
+        function nextSlide() {
+            if (currentPosition < totalPositions - 1) {
+                currentPosition++;
+                updateCarousel();
+            }
+        }
+
+        function prevSlide() {
+            if (currentPosition > 0) {
+                currentPosition--;
+                updateCarousel();
+            }
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentPosition = index;
+                updateCarousel();
+            });
+        });
+
+        // Initialize - wait for images to load
+        window.addEventListener('load', () => {
+            setTimeout(updateCarousel, 50);
+        });
+        
+        // Also try immediately in case already loaded
+        if (document.readyState === 'complete') {
+            setTimeout(updateCarousel, 50);
+        }
+        
+        // Update on window resize - debounced
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateCarousel, 150);
+        });
+
+        // iPhone Carousel functionality
+        const iphoneTrack = document.querySelector('.iphone-carousel-track');
+        const iphoneSlides = Array.from(document.querySelectorAll('.iphone-carousel-slide'));
+        const iphoneDots = document.querySelectorAll('.iphone-dot');
+        const iphonePrevBtn = document.querySelector('.iphone-carousel-btn.prev');
+        const iphoneNextBtn = document.querySelector('.iphone-carousel-btn.next');
+        const iphoneContainer = document.querySelector('.iphone-carousel-container');
+        
+        let iphonePosition = 0;
+        const totalIphoneSlides = 10;
+        const iphoneSlidesPerView = window.innerWidth <= 968 ? 2 : 3;
+        const totalIphonePositions = totalIphoneSlides - iphoneSlidesPerView + 1; // 8 positions for 3 visible, 9 for 2 visible
+
+        function updateIphoneCarousel() {
+            const isMobile = window.innerWidth <= 968;
+            const visibleSlides = isMobile ? 2 : 3;
+            
+            // Get slide width
+            const slideWidth = iphoneSlides[0].getBoundingClientRect().width;
+            const gap = 16;
+            
+            // Calculate offset
+            const offset = iphonePosition * (slideWidth + gap);
+            iphoneTrack.style.transform = `translateX(-${offset}px)`;
+            
+            // Update dots
+            iphoneDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === iphonePosition);
+            });
+
+            // Update button states
+            iphonePrevBtn.disabled = iphonePosition === 0;
+            iphoneNextBtn.disabled = iphonePosition >= (totalIphoneSlides - visibleSlides);
+            
+            iphonePrevBtn.style.opacity = iphonePosition === 0 ? '0.5' : '1';
+            iphoneNextBtn.style.opacity = iphonePosition >= (totalIphoneSlides - visibleSlides) ? '0.5' : '1';
+            iphonePrevBtn.style.cursor = iphonePosition === 0 ? 'default' : 'pointer';
+            iphoneNextBtn.style.cursor = iphonePosition >= (totalIphoneSlides - visibleSlides) ? 'default' : 'pointer';
+        }
+
+        function nextIphoneSlide() {
+            const visibleSlides = window.innerWidth <= 968 ? 2 : 3;
+            if (iphonePosition < totalIphoneSlides - visibleSlides) {
+                iphonePosition++;
+                updateIphoneCarousel();
+            }
+        }
+
+        function prevIphoneSlide() {
+            if (iphonePosition > 0) {
+                iphonePosition--;
+                updateIphoneCarousel();
+            }
+        }
+
+        // iPhone carousel event listeners
+        iphoneNextBtn.addEventListener('click', nextIphoneSlide);
+        iphonePrevBtn.addEventListener('click', prevIphoneSlide);
+
+        iphoneDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                iphonePosition = index;
+                updateIphoneCarousel();
+            });
+        });
+
+        // Initialize iPhone carousel
+        if (document.readyState === 'complete') {
+            setTimeout(updateIphoneCarousel, 50);
+        } else {
+            window.addEventListener('load', () => {
+                setTimeout(updateIphoneCarousel, 50);
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
